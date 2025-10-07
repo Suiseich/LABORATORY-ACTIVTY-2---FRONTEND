@@ -13,6 +13,14 @@ export default function Homepage({ navigation }) {
           color={"#0a7894ff"}
         />
       </View>
+
+      <View>
+        <Button
+          title="View Users"
+          onPress={() => navigation.navigate("UserList")}
+        ></Button>
+      </View>
+      
     </View>
   );
 }
