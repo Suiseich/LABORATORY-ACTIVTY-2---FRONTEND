@@ -6,6 +6,7 @@ import Homepage from "./pages/Homepage";
 import RegisterPage from "./pages/registerpage";
 import ReviewPage from "./pages/reviewpage";
 import UserListPage from "./pages/userlistpage";
+import EditUserPage from "./pages/edituserpage";
 const Stack = createNativeStackNavigator();
 
 export default function Dashboard() {
@@ -16,6 +17,7 @@ export default function Dashboard() {
         <Stack.Screen name="Register" component={RegisterPage} />
         <Stack.Screen name="Review" component={ReviewPage} />
         <Stack.Screen name="UserList" component={UserListPage} />
+        <Stack.Screen name="EditUser" component={EditUserPage} />
       </Stack.Navigator>
     </NavigationContainer>
   );

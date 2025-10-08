@@ -1,14 +1,14 @@
-import { View, Text, FlatList } from "react-native";
+import { View, Text, FlatList, Button, Alert } from "react-native";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import styles from "../styles"; // Import the styles
+import styles from "../styles";
 
-export default function UserListPage() {
+export default function UserListPage({ navigation }) {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/registration/api/users/")
+      .get("http://192.168.20.213:8000/registration/api/users/")
       .then((res) => {
         setUsers(res.data);
       })
@@ -16,6 +16,36 @@ export default function UserListPage() {
         console.error(err);
       });
   }, []);
+
+  const handleEdit = (user) => {
+    navigation.navigate("EditUser", { user });
+  };
+
+  const handleDelete = (id) => {
+    Alert.alert(
+      "Confirm Deletion",
+      "Are you sure you want to delete this user?",
+      [
+        ({ text: "Cancel", style: "Cancel" },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: () => {
+            axios
+              .delete(
+                `http://192.168.20.213:8000/registration/api/users/${id}/`
+              )
+              .then(() => {
+                Alert.alert("Success", "User deleted successfully");
+              })
+              .catch((err) => {
+                Alert.alert("Error", "Failed to delete user");
+              });
+          },
+        }),
+      ]
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -28,6 +58,18 @@ export default function UserListPage() {
             <Text style={styles.cardText}>Firstname: {item.first_name}</Text>
             <Text style={styles.cardText}>Lastname: {item.last_name}</Text>
             <Text style={styles.cardText}>Email: {item.email}</Text>
+            <View>
+              <Button
+                title="Edit"
+                onPress={() => handleEdit(item)}
+                color="#4CAF50"
+              />
+              <Button
+                title="Delete"
+                onPress={() => handleDelete(item)}
+                color="#f44336"
+              />
+            </View>
           </View>
         )}
       />
